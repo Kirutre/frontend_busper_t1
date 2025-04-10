@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="es">
+	<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<link rel="stylesheet" href="static/css/bootstrap.min.css">
+<link rel="stylesheet" href="static/fontawesome/css/all.min.css">
+
+<link rel="stylesheet" href="static/css/styles.css">
+
+<link rel="icon" href="static/images/favicon.svg" type="image/svg+xml">
+
+<title>Servicios - Busper</title>
+
+<script src="static/js/jquery-3.7.1.min.js" defer></script>
+<script src="static/js/bootstrap.bundle.min.js" defer></script>
+
+<script src="static/js/utils.js" defer></script>
+<script src="static/js/PasswordPolicy.js" defer></script>
+<script src="static/js/User.js" defer></script>
+<script src="static/js/app.js" defer></script>
+	<script src="static/js/ServicesTableEditor.js" defer></script>
+	<script src="static/js/services.js" defer></script>
+	</head>
+	<body>
+<header>
+	<nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark site-header">
+		<div class="container-fluid">
+			<a class="navbar-brand" href="index.html">
+				<img class="logo" alt="Logo" src="static/images/busper-logo-white.svg">
+			</a>
+			<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+				<span class="navbar-toggler-icon"></span>
+			</button>
+			<div class="collapse navbar-collapse" id="navbarCollapse">
+				<ul class="navbar-nav me-auto mb-2 mb-md-0">
+						<li class="nav-item" id="nav-item-index">
+							<a class="nav-link" href="index.html">Inicio</a>
+						</li>
+						<li class="nav-item" id="nav-item-services">
+							<a class="nav-link active" href="services.html">Servicios</a>
+						</li>
+						<li class="nav-item" id="nav-item-hardware">
+							<a class="nav-link" href="hardware.html">Hardware</a>
+						</li>
+						<li class="nav-item" id="nav-item-software">
+							<a class="nav-link" href="software.html">Software</a>
+						</li>
+						<li class="nav-item" id="nav-item-shop">
+							<a class="nav-link" href="shop.html">Tienda</a>
+						</li>
+						<li class="nav-item" id="nav-item-login">
+							<a class="nav-link" href="login.html">Iniciar sesión</a>
+						</li>
+						<li class="nav-item" id="nav-item-logout">
+							<a class="nav-link" href="login.html">Cerrar sesión</a>
+						</li>
+						<li class="nav-item" id="nav-item-signup">
+							<a class="nav-link" href="signup.html">Registrarse</a>
+						</li>
+
+					<li class="nav-item dropdown">
+						<a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">Administración</a>
+
+						<ul class="dropdown-menu">
+								<li><a class="dropdown-item" href="sales-tracker.html">Panel de ventas</a></li>
+								<li><a class="dropdown-item" href="index.html#gallery-section">Editar galería</a></li>
+								<li><a class="dropdown-item" href="services.html#services-table">Editar servicios</a></li>
+								<li><a class="dropdown-item" href="shop.html#add-new-card-button-container">Editar productos</a></li>
+						</ul>
+					</li>
+
+					<div class="nav-user-text">
+					</div>
+				</ul>
+
+				<form class="d-flex search-bar">
+					<input type="text" placeholder="Buscar">
+
+					<div class="search-bar-button">
+						<i class="fas fa-search icon"></i>
+					</div>
+				</form>
+			</div>
+		</div>
+	</nav>
+</header>		<main>
+<div class="modal fade" id="request-service-modal" tabindex="-1" aria-labelledby="request-service-modal-label" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h1 class="modal-title fs-5" id="request-service-modal-label">Solicitar servicio</h1>
+				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+			</div>
+
+			<div class="modal-body">
+				<form method="get" class="row g-3 request-service-form">
+					<div class="col-6">
+						<label for="name" class="form-label required">Nombre</label>
+						<input type="text" class="form-control" id="name" placeholder="Tu nombre" minlength="3" maxlength="30" required>
+					</div>
+
+					<div class="col-md-6">
+						<label for="telephone-number" class="form-label required">Número de teléfono</label>
+						<input type="tel" class="form-control" name="telephone-number" id="telephone-number" placeholder="0123-1234567" pattern="^\d{3,4}-?\d{7}$" required>
+					</div>
+
+					<div class="col-md-6">
+						<label for="email" class="form-label">Correo electrónico</label>
+						<input type="email" class="form-control" name="email" id="email" placeholder="usuario@acme.org" pattern="^[^@]+@[^@]+\.[^@]+$">
+					</div>
+
+					<div class="col-md-6">
+						<label for="model" class="form-label required">Modelo del dispositivo</label>
+						<input class="form-control" name="model" id="model" placeholder="GWTN156-4" minlength="1" maxlength="100" required>
+					</div>
+
+					<div class="col-md-6">
+						<label for="operating-system" class="form-label">Sistema operativo</label>
+						<input class="form-control" name="operating-system" id="operating-system" placeholder="Windows 10" minlength="1" maxlength="50">
+					</div>
+
+					<div class="col-md-6">
+						<label for="service" class="form-label required"><a href="services.html#servicios-basicos">Servicio</a> a solicitar</label>
+
+						<select id="service" name="service" class="form-select" required>
+							<option value="">...</option>
+							<option value="servicio-completo-pc">Completo (PC)</option>
+							<option value="servicio-software-pc">Software (PC)</option>
+							<option value="servicio-hardware-pc">Hardware (PC)</option>
+							<option value="servicio-en-local-pc">Local (PC)</option>
+							<option value="servicio-completo-laptop">Completo (laptop)</option>
+							<option value="servicio-software-laptop">Software (laptop)</option>
+							<option value="servicio-hardware-laptop">Hardware (laptop)</option>
+							<option value="servicio-en-local-laptop">Local (laptop)</option>
+						</select>
+					</div>
+
+					<div class="mb-3">
+						<label for="description">Descripción de la solicitud</label>
+						<textarea class="form-control" id="description" name="description" rows="3" minlength="10" maxlength="200"></textarea>
+					</div>
+
+					<div class="col-12 modal-footer">
+						<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+						<button type="submit" class="btn btn-primary">Enviar</button>
+					</div>
+				</form>
+			</div>
+
+			<div class="modal-footer">
+				<p>Te contactaremos por teléfono para más detalles.</p>
+			</div>
+		</div>
+	</div>
+</div>
+	<div id="services-table-edit-price-modal" class="modal fade" tabindex="-1">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title">Modificar precio</h5>
+					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+				</div>
+
+				<form method="get">
+					<div class="modal-body">
+						<input type="number" class="form-control" id="new-price" name="new-price">
+					</div>
+
+					<div class="modal-footer">
+						<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+						<button type="button" class="btn btn-primary" data-bs-dismiss="modal" id="save-new-price-button">Guardar</button>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+
+	<div class="modal fade" id="services-table-edit-mark-modal" tabindex="-1" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title text-center">¿El servicio seleccionado incluye esta función?</h5>
+					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+				</div>
+
+				<div class="modal-body text-center">
+					<div class="btn-group" role="group">
+						<input type="radio" class="btn-check" name="services-table-mark-radio" id="services-table-mark-yes" autocomplete="off">
+						<label class="btn btn-outline-success" for="services-table-mark-yes"><i class="fa-regular fa-square-check"></i></i></label>
+
+						<input type="radio" class="btn-check" name="services-table-mark-radio" id="services-table-mark-no" autocomplete="off">
+						<label class="btn btn-outline-danger" for="services-table-mark-no"><i class="fa-regular fa-circle-xmark"></i></label>
+					</div>
+				</div>
+
+				<div class="modal-footer">
+					<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+					<button type="button" class="btn btn-primary" data-bs-dismiss="modal" id="save-new-mark-button">Guardar</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="intro" style="background-image: url(static/images/banner-5.jpg)">
+		<header>
+			<h1>Servicios que ofrecemos</h1>
+		</header>
+
+		<div class="ps-5 pe-5 fs-5">
+			<p>
+				En Busper, nos adaptamos a las necesidades de nuestros clientes, ofreciéndoles una variedad de planes que les permiten acceder de manera económica a nuestros servicios básicos.
+			</p>
+		</div>
+	</div>
+
+	<div class="container marketing p-5">
+		<span id="servicios-basicos"></span>
+		<h2 class="featurette-heading">Servicios básicos</h2>
+
+		<div class="row featurette">
+			<div class="col-md-7 fs-5">
+				<h3>Servicio completo</h3>
+				<p>Este plan incluye una limpieza profunda de su equipo, tanto en hardware como en software. Se realiza un chequeo del disco duro, se cambia la pasta térmica del procesador, se elimina el polvo de los disipadores, se formatea si es necesario, se crean particiones y se devuelve el equipo en perfectas condiciones.</p>
+
+				<h3>Servicio software</h3>
+				<p>Únicamente se trabaja en la parte intangible del ordenador (el software), se manejan programas y se diagnostica el disco duro, realizando un formateo con sus respectivas particiones si es necesario.</p>
+			</div>
+			<div class="col-md-5">
+				<img class="rounded-start float-end" src="static/images/soldering-7897827_1280.webp" width="350" height="350"></img>
+			</div>
+		</div>
+
+		<br>
+
+		<div class="row featurette fs-5">
+			<div class="col-md-5">
+				<img class="rounded-end" src="static/images/computer-1948068_1280.jpg" width="350" height="350"></img>
+			</div>
+
+			<div class="col-md-7">
+				<h3>Servicio hardware</h3>
+				<p>Se lleva a cabo una limpieza adecuada del equipo, desde la eliminación de polvo en la carcasa hasta el cambio de pasta térmica en el procesador.</p>
+
+				<h3>Servicio en local</h3>
+				<p>Incluye todos los servicios anteriores, pero sin la opción de entrega y recogida del equipo.</p>
+			</div>
+		</div>
+
+
+		<section class="d-flex justify-content-center" id="request-service">
+			<button class="btn btn-lg btn-secondary mb-4" data-bs-toggle="modal" data-bs-target="#request-service-modal">
+				Solicitar servicio
+			</button>
+		</section>
+
+		<hr class="featurette-divider">
+
+		<div>
+			<div class="mb-1 text-center admin-help-container">
+			</div>
+
+			<table id="services-table">
+				<thead>
+					<tr>
+						<th></th>
+						<th scope="col">Limpieza de hardware</th>
+						<th scope="col">Formateo</th>
+						<th scope="col">Instalacion de programas</th>
+						<th scope="col">Domicilio</th>
+						<th scope="col">Precio (COP)</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<th scope="row">Servicio completo (PC)</th>
+						<td class="services-table-mark">✅</td>
+						<td class="services-table-mark">✅</td>
+						<td class="services-table-mark">✅</td>
+						<td class="services-table-mark">✅</td>
+						<td id="servicio-completo-pc" class="services-table-price">60 000</td>
+					</tr>
+					<tr>
+						<th scope="row">Servicio completo (laptop)</th>
+						<td class="services-table-mark">✅</td>
+						<td class="services-table-mark">✅</td>
+						<td class="services-table-mark">✅</td>
+						<td class="services-table-mark">✅</td>
+						<td id="servicio-completo-laptop" class="services-table-price">72 000</td>
+					</tr>
+					<tr>
+						<th scope="row">Servicio software (PC)</th>
+						<td class="services-table-mark">❌</td>
+						<td class="services-table-mark">✅</td>
+						<td class="services-table-mark">✅</td>
+						<td class="services-table-mark">✅</td>
+						<td id="servicio-software-pc" class="services-table-price">25 000</td>
+					</tr>
+					<tr>
+						<th scope="row">Servicio software (laptop)</th>
+						<td class="services-table-mark">❌</td>
+						<td class="services-table-mark">✅</td>
+						<td class="services-table-mark">✅</td>
+						<td class="services-table-mark">✅</td>
+						<td id="servicio-software-laptop" class="services-table-price">30 000</td>
+					</tr>
+					<tr>
+						<th scope="row">Servicio hardware (PC)</th>
+						<td class="services-table-mark">✅</td>
+						<td class="services-table-mark">❌</td>
+						<td class="services-table-mark">❌</td>
+						<td class="services-table-mark">❌</td>
+						<td id="servicio-hardware-pc" class="services-table-price">35 000</td>
+					</tr>
+					<tr>
+						<th scope="row">Servicio hardware (laptop)</th>
+						<td class="services-table-mark">✅</td>
+						<td class="services-table-mark">❌</td>
+						<td class="services-table-mark">❌</td>
+						<td class="services-table-mark">❌</td>
+						<td id="servicio-hardware-laptop" class="services-table-price">42 000</td>
+					</tr>
+					<tr>
+						<th scope="row">Servicio en local (PC)</th>
+						<td class="services-table-mark">✅</td>
+						<td class="services-table-mark">✅</td>
+						<td class="services-table-mark">✅</td>
+						<td class="services-table-mark">❌</td>
+						<td id="servicio-en-local-pc" class="services-table-price">50 000</td>
+					</tr>
+					<tr>
+						<th scope="row">Servicio en local (laptop)</th>
+						<td class="services-table-mark">✅</td>
+						<td class="services-table-mark">✅</td>
+						<td class="services-table-mark">✅</td>
+						<td class="services-table-mark">❌</td>
+						<td id="servicio-en-local-laptop" class="services-table-price">62 000</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+
+		<hr class="featurette-divider">
+	</div>
+
+<footer class="pe-5 ps-5">
+	<svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+		<symbol id="facebook" viewBox="0 0 16 16">
+			<path d="M16 8.049c0-4.446-3.582-8.05-8-8.05C3.58 0-.002 3.603-.002 8.05c0 4.017 2.926 7.347 6.75 7.951v-5.625h-2.03V8.05H6.75V6.275c0-2.017 1.195-3.131 3.022-3.131.876 0 1.791.157 1.791.157v1.98h-1.009c-.993 0-1.303.621-1.303 1.258v1.51h2.218l-.354 2.326H9.25V16c3.824-.604 6.75-3.934 6.75-7.951z"/>
+		</symbol>
+
+		<symbol id="instagram" viewBox="0 0 16 16">
+			<path d="M8 0C5.829 0 5.556.01 4.703.048 3.85.088 3.269.222 2.76.42a3.917 3.917 0 0 0-1.417.923A3.927 3.927 0 0 0 .42 2.76C.222 3.268.087 3.85.048 4.7.01 5.555 0 5.827 0 8.001c0 2.172.01 2.444.048 3.297.04.852.174 1.433.372 1.942.205.526.478.972.923 1.417.444.445.89.719 1.416.923.51.198 1.09.333 1.942.372C5.555 15.99 5.827 16 8 16s2.444-.01 3.298-.048c.851-.04 1.434-.174 1.943-.372a3.916 3.916 0 0 0 1.416-.923c.445-.445.718-.891.923-1.417.197-.509.332-1.09.372-1.942C15.99 10.445 16 10.173 16 8s-.01-2.445-.048-3.299c-.04-.851-.175-1.433-.372-1.941a3.926 3.926 0 0 0-.923-1.417A3.911 3.911 0 0 0 13.24.42c-.51-.198-1.092-.333-1.943-.372C10.443.01 10.172 0 7.998 0h.003zm-.717 1.442h.718c2.136 0 2.389.007 3.232.046.78.035 1.204.166 1.486.275.373.145.64.319.92.599.28.28.453.546.598.92.11.281.24.705.275 1.485.039.843.047 1.096.047 3.231s-.008 2.389-.047 3.232c-.035.78-.166 1.203-.275 1.485a2.47 2.47 0 0 1-.599.919c-.28.28-.546.453-.92.598-.28.11-.704.24-1.485.276-.843.038-1.096.047-3.232.047s-2.39-.009-3.233-.047c-.78-.036-1.203-.166-1.485-.276a2.478 2.478 0 0 1-.92-.598 2.48 2.48 0 0 1-.6-.92c-.109-.281-.24-.705-.275-1.485-.038-.843-.046-1.096-.046-3.233 0-2.136.008-2.388.046-3.231.036-.78.166-1.204.276-1.486.145-.373.319-.64.599-.92.28-.28.546-.453.92-.598.282-.11.705-.24 1.485-.276.738-.034 1.024-.044 2.515-.045v.002zm4.988 1.328a.96.96 0 1 0 0 1.92.96.96 0 0 0 0-1.92zm-4.27 1.122a4.109 4.109 0 1 0 0 8.217 4.109 4.109 0 0 0 0-8.217zm0 1.441a2.667 2.667 0 1 1 0 5.334 2.667 2.667 0 0 1 0-5.334z"/>
+		</symbol>
+
+		<symbol id="twitter" viewBox="0 0 16 16">
+			<path d="M5.026 15c6.038 0 9.341-5.003 9.341-9.334 0-.14 0-.282-.006-.422A6.685 6.685 0 0 0 16 3.542a6.658 6.658 0 0 1-1.889.518 3.301 3.301 0 0 0 1.447-1.817 6.533 6.533 0 0 1-2.087.793A3.286 3.286 0 0 0 7.875 6.03a9.325 9.325 0 0 1-6.767-3.429 3.289 3.289 0 0 0 1.018 4.382A3.323 3.323 0 0 1 .64 6.575v.045a3.288 3.288 0 0 0 2.632 3.218 3.203 3.203 0 0 1-.865.115 3.23 3.23 0 0 1-.614-.057 3.283 3.283 0 0 0 3.067 2.277A6.588 6.588 0 0 1 .78 13.58a6.32 6.32 0 0 1-.78-.045A9.344 9.344 0 0 0 5.026 15z"/>
+		</symbol>
+	</svg>
+
+	<div class="d-flex flex-column flex-sm-row justify-content-between py-4 my-4 border-top">
+		<p class="text-start fw-bold">Copyright © 2024 Busper. Todos los derechos reservados.</p>
+
+		<ul class="list-unstyled d-flex">
+			<li class="ms-3"><a class="link-dark" href="https://x.com/GabrielPernale8?t=R1ua08ai5PAlxyjux0BayA&s=08"><svg class="bi" width="24" height="24"><use xlink:href="#twitter"/></svg></a></li>
+			<li class="ms-3"><a class="link-dark" href="https://www.instagram.com/busp.er"><svg class="bi" width="24" height="24"><use xlink:href="#instagram"/></svg></a></li>
+			<li class="ms-3"><a class="link-dark" href="https://www.facebook.com/snowanimation.tasmseriepivot?mibextid=ZbWKwL"><svg class="bi" width="24" height="24"><use xlink:href="#facebook"/></svg></a></li>
+		</ul>
+	</div>
+</footer>		</main>
+	</body>
+</html>

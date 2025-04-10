@@ -1,0 +1,18 @@
+body {
+	background: none !important;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	background-image: url('../../static/images/banner-4.jpg') !important;
+}
+
+#login-form,
+#signup-form {
+	backdrop-filter: blur(8px);
+	border: 1px solid white;
+}
+
+.alert  {
+	max-width: 450px;
+	word-wrap: break-word;
+}
